@@ -74,11 +74,13 @@ pre {
 }
 
 code {
-    display: block;
-    padding: 0 1.5rem;
     width: fit-content;
     min-width: 100%;
     line-height: 1.7;
     font-size: 0.875rem;
     transition: color 0.5s;
+    border-radius: 3px;
+    padding-block: .4125ex;
+    padding-inline: .825ex;
+    background: #21252B;
 }

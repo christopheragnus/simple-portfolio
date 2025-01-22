@@ -1,0 +1,94 @@
+---
+author: Chris
+publishDate: 2025-01-22
+title: How Javascript Scopes Work
+tags:
+  - javascript
+  - scopes
+description:
+  Short summary on scope and the JS compiler
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'Short guide on JS scopes and the JS compiler'
+---
+
+## How the Javascript compiler works
+
+Javascript is a "dynamic" or "interpreted" language but also is a compiled language. However, it is not compiled far in advance but takes a series of steps similar to a traditionally-compiled language. Before execution, the Javascript engine takes a series of steps analogous to "compilation":
+
+1. Tokenizing / lexing. Tokens are between a word and character but is the breaking up of a string of characters in chunks called tokens. 
+2. Parsing. The stream of tokens is converted in an AST (Abstract Syntax Tree)
+3. Code-Generation. The AST of the prior step is taken and turned into machine code.
+
+For JS, the compilation steps happens in microseconds first, and then the JS engine is ready to execute it immediately.
+
+## Scope
+
+Javascript like all programming languages has scope - a set of rules to define how variables are stored in some location.
+
+The main moving pieces to determine Scope when JS code is executed is:
+
+1. JS Engine - which runs the code from start-to-finish.
+2. The Compiler. Handles parsing and code Generation
+3. Scope. It enforces rules on which variables declared can be accessed or not.
+
+For the following example, lets look at the following statement, a variable assignemnt:
+
+```
+var a = 2
+```
+
+The *Compiler* will perform lexing, parsing and code generation. At the code-generation step, it will perform the following steps:
+
+1. When is encounters the LHS, `var a`, *Compiler* will ask *Scope* if variable `a` exists. If it does not exist, *Compiler* will declare a new variable for `a`.
+2.  *Compiler* will then generate code for the *Engine* to handle the `a=2` assignment. *Engine* will ask if variable `a` exists in the current scope and if it does, assigns the variable `a`. If it does not exist, *Engine* looks elsewhere.
+3. *Engine* either eventually finds `a` variable and assigns `2` to the variable. Otherwise, a `ReferenceError` occurs.
+
+A more complex example:
+
+```
+function foo(a) {
+  console.log(a); //2
+}
+
+foo(2);
+```
+
+We can imagine the exchange between *Engine* and *Scope* as the following.
+
+- *Engine* has a right-hand side (RHS) reference for `foo`.
+- *Scope* sees that *Compiler* declared it as a function declaration.
+- *Engine* sees a function invocation. ie. `foo(2)`
+- *Engine* finds a LHS reference for `a`. Check *Scope*.
+- *Scope* has a `a` parameter that was declared by the *Compiler* to `foo`.
+- *Engine* assigns `2` to `a`.
+- *Scope* is called upon again inside of `foo()` by the *Engine*. RHS look-up is done for `console`.
+- *Engine* asks *Scope* if `console` exists. Since it does, the *Engine* proceeds to look up `log(...)`.
+- *Engine* encounters a RHS reference to `a`. It goes back to *Scope* and the RHS has not changed since.
+- *Engine* passes the value of `a` from the parameter into `console.log(2)`.
+
+
+## Nested Scope
+
+In JS, the scope is lexical meaning that a variable defined inside a function is not accessible from outside the function, and variables defined in an outer scope are accessible to inner functions. This is determined at the time of writing the code, not during runtime.
+
+Consider:
+
+```
+function foo(a) {
+  console.log( a + b);
+}
+
+var b = 2;
+
+foo(2); // 4
+```
+
+In this example above, the *Engine* runs through the program from top to bottom. It finds a RHS reference for `b`. As this is not in the function's scope, the *Engine* will look outside. 
+*Scope* will say it is not in the `foo(..)` scope. The *Engine* will search the global *Scope* again for `b`. The global *Scope* has a LHS reference to `b` and returns the RHS reference for it.
+
+Hence, LHS and RHS references are resolved by looking at the existing *Scope*. If the reference is not found, then it looks above that *Scope* until global *Scope* is reached.
+
+
+
+

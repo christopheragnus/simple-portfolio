@@ -1,0 +1,166 @@
+---
+author: Chris
+publishDate: 2025-01-22
+title: Types of Javascript Scopes
+tags:
+  - javascript
+  - scopes
+description:
+ A guide on the different types of Javascript Scopes
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'A guide on the different types of Javascript Scopes'
+---
+
+## What are different types of scopes that exist in Javascript?
+
+
+Javascript can create two type of scopes where variables and functions are declared. These scopes can be nested as nested scopes and defined at author-time.
+
+## Function Scopes
+
+Function-based scopes is where a declared function creates a scope bubble for itself.
+
+Consider:
+
+```
+function foo(a) {
+  var b = 2
+
+  // code
+
+  function bar() {
+    // ...
+  }
+
+  // ...
+
+  var c = 3
+}
+
+bar(); // ReferenceError
+
+console.log(a, b, c) // ReferenceError
+```
+
+In this example, the scope bubble for `foo(...)` only contains `a`, `b`, `c`, and `bar`. The scope where the declaration occurs is wherer the variable or function belogs to.
+
+`bar(...)` has its own scope bubble. `foo(...)` is in the global scope.
+
+Because `a`, `b`, `c` and `bar` are all inside of `foo(...)`, they are not accessible outside of `foo(...)`. Therefore, `ReferenceError` would occur these functions / variables were referenced outside of their scope.
+
+The benefit of Function scope is that any variables declared belong to the fucntion and any nested scopes inside the function. This prevents variables from being accidentally accessed outside of the function and is motived by the "Principle of Least Privilege". ie. expose only what function / variables are minimally necessary and keep everything else "private".
+
+For example; it is inadvisable to declare `bar(...)` and variable `b` in the global scope. It is unnecessary and dangerous and its better to only give access to `b` and `bar(...)` only within `foo(...)` as this is only where it is used in the program.
+
+```
+function foo(a) {
+  b = a + bar(a * 2);
+  
+  console.log(b * 3)
+}
+
+function bar(a) {
+  return a - 1
+}
+
+var b;
+
+foo(2); // 15
+
+```
+
+In this snippet, the `b` variable and `bar(...)` is only accessible inside of `foo(...)` and makes them private. Hiding variables inside functions prevents "collisions" or accidentally overwriting a variable in another part of the program.
+
+```
+function foo(a) {
+  function bar(a) {
+    return a - 1
+  }
+
+  var b;
+
+  b = a + bar(a * 2);
+  console.log(b * 3)
+}
+
+foo(2); // 15
+
+```
+
+
+## Block Scopes
+
+Block scopes are probably the most widespread use of scope in JS. Block scoping refers to the idea variables can be confined to a block (such as an `if` statement, `for` loop or within `{}`). An example of block scoping is found in this example:
+
+```
+for (var i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+```
+
+The variable `i` is declared inside the for-loop because we only want to use it for that particular for-loop.
+
+In block scoping, we want to declare variables so that are should be as close to where the variable is used. However, in the case above the `i` is fake "block-scoping" because `var` will cause the variable to belong to enclosing scope. Hence, `var` cannot be block-scoped, even though it might look like it. 
+
+So, how do we fix this?
+
+In ES6 Javascript, a new variable keyword `let` was introduced as another way to declare variables. The `let` keyword attaches the variable declaration to its enclosing block, commonly between the brackets `{...}`.  
+
+```
+var foo = true
+
+if (foo) {
+  let bar = foo * 2;
+  bar = something(bar)
+  console.log(bar)
+}
+
+console.log(bar); // ReferenceError
+
+```
+
+In the snippet, using `let` attaches a variable to an existing block implicitly. An explicit demostration of block-scoping with `let` is in the following snippet:
+
+```
+var foo = true
+
+if (foo) {
+  {
+    let bar = foo * 2;
+    bar = something(bar)
+    console.log(bar)
+  }
+}
+
+console.log(bar); // ReferenceError
+
+```
+
+ES6 Javascript also introduced `const`, which creates a block-scoped variable. The only major difference is that it prevents a new value from being reassigned.
+
+```
+var foo = true;
+
+if (foo) {
+  var a = 2;
+  const b = 3; // block-scoped to the if statement
+
+  a = 3 
+  b = 4 // error
+}
+
+console.log(a); // 3
+console.log(b); // ReferenceError
+
+```
+
+
+
+## Summary / tldr;
+
+In summary, JS contains two ways of scoping - block and function scope. Block scoping not only applies to `{...}` blocks but also to `if` and `for` loops and `try/catch` structures. Function scope are good to make any function / variable declarations "private" outside of the function. Both are perfectly valid ways to use scopes.
+
+In ES6, `let` and `const` were introduced to allow variable declaration to a block of code - which hijacks the scope of `if`'s `{...}` block and creates a reference there.
+

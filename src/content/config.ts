@@ -22,6 +22,8 @@ const posts = defineCollection({
     }),
 });
 
+console.log(posts)
+
 const projects = defineCollection({
     loader: glob({ pattern: "**/*.mdx", base: "./src/content/projects" }),
     schema: ({ image }) => z.object({
