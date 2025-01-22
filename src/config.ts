@@ -36,7 +36,7 @@ export const ME = {
         linkedin: "https://www.linkedin.com/in/clam8/",
         resumeDoc: "resume.pdf",
     },
-    aboutMe: "I am a software engineer with a passion for web development. I have experience in building web " + "applications using modern technologies. I am a self-taught developer who enjoys learning new things and " + "sharing knowledge with others.",
+    aboutMe: "I am a software engineer with over 6 years of frontend experience and 2 years in data science, particularly in bioinformatics. My frontend expertise centers on React, Typescript and Javascript where I've worked with major companies such as AIA Insurance and Optus. I recently expanded my skillset into AI and data science, where I have applied myself in analysing biology datasets and developed Python pipelines to allow easy comparison of predicted proteins. My technical stack is comprehensive, spanning frontend technologies, data science tools and cloud platforms. I have high attention to detail and aim to deploy my technical expertise to solve problems.",
 }
 
 export const SOCIALS = [
