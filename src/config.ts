@@ -34,7 +34,7 @@ export const ME = {
     contactInfo: {
         email: "christopherlam@duck.com",
         linkedin: "https://www.linkedin.com/in/clam8/",
-        resumeDoc: "https://drive.google.com/file/d/1cGsF-xvRZttpB1PNR_XHr2qRyIt6JeDI/view?usp=sharing",
+        resumeDoc: "resume.pdf",
     },
     aboutMe: "I am a software engineer with a passion for web development. I have experience in building web " + "applications using modern technologies. I am a self-taught developer who enjoys learning new things and " + "sharing knowledge with others.",
 }
