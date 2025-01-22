@@ -4,7 +4,7 @@ publishDate: 2025-01-22
 title: How Javascript Closures Work
 tags:
   - javascript
-  - scopes
+  - closures
 description:
   A short explanation of how closures work
 cover:
@@ -24,7 +24,7 @@ Consider:
 
 ```
 function foo() {
-  var a = 2;
+  let a = 2;
   
   function bar() {
     console.log( a );
@@ -33,7 +33,7 @@ function foo() {
   return bar;
 }
 
-var baz = foo();
+let baz = foo();
 
 baz(); // 2 
 
@@ -41,8 +41,10 @@ baz(); // 2
 
 Using this example, it is clear the `bar()` has lexical scope to the inner scope of `foo()`. Then we take `bar(...)` function and pass it as `a` value. We `return` the function object of the `bar` reference.
 
-After we invoke `foo`, we assign the value of `bar()` to the variable `baz`. On the last line, where we invoke `baz()` in turn invokes `bar()`, returning `2` as a value.
+After we invoke `foo()`, we assign a reference to the function `bar()` to the variable `baz` when `foo()` is run. The instance of `bar()` maintains a reference to its lexical evnironment, within which the variable `a` exists. For this reason, when we invoke `baz()` in turn invokes `bar()`, it returns the value of the `a` variable `2`.
 
-Due to the closure - `bar()` is executed outside of its declared lexical scope. So instead of the inner scope of `foo()` being garbage collected, the inner scope is still in use because of the `bar()` function maintains a reference to it. Therefore, since `bar()` has a reference to the inner scope, that reference is called closure.
+Due to closure - `bar()` is executed outside of its declared lexical scope. So instead of the inner scope of `foo()` being garbage collected, the inner scope is still in use because of the `bar()` function maintains a reference to it. Therefore, since `bar()` has a reference to the inner scope, that reference is called closure.
 
 Like magic, closure allows the function to access the lexical scope it defined at author-time.
+
+On a practical matter, closures are useful because they let you associate data (lexical environment) with a function that operates on that data.
