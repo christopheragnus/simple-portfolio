@@ -1,0 +1,48 @@
+---
+author: Chris
+publishDate: 2025-01-22
+title: How Javascript Closures Work
+tags:
+  - javascript
+  - scopes
+description:
+  A short explanation of how closures work
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'A short explanation of how closures work'
+---
+
+## How Javascript Closures work
+
+What are Javascript Closures?
+
+Closures are defined as: 
+
+> Closure us when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope
+
+Consider:
+
+```
+function foo() {
+  var a = 2;
+  
+  function bar() {
+    console.log( a );
+  }
+
+  return bar;
+}
+
+var baz = foo();
+
+baz(); // 2 
+
+```
+
+Using this example, it is clear the `bar()` has lexical scope to the inner scope of `foo()`. Then we take `bar(...)` function and pass it as `a` value. We `return` the function object of the `bar` reference.
+
+After we invoke `foo`, we assign the value of `bar()` to the variable `baz`. On the last line, where we invoke `baz()` in turn invokes `bar()`, returning `2` as a value.
+
+Due to the closure - `bar()` is executed outside of its declared lexical scope. So instead of the inner scope of `foo()` being garbage collected, the inner scope is still in use because of the `bar()` function maintains a reference to it. Therefore, since `bar()` has a reference to the inner scope, that reference is called closure.
+
+Like magic, closure allows the function to access the lexical scope it defined at author-time.
