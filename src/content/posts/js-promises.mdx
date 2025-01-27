@@ -1,0 +1,204 @@
+---
+author: Chris
+publishDate: 2025-01-27
+title: How Javascript Promises Work
+tags:
+  - javascript
+  - promises
+description:
+  An explanation how promises work in ES6
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'An explanation how promises work in ES6'
+---
+
+## How Javascript Promises work
+
+What are Javascript Promises?
+
+> A promise is an object returned by an asynchronous function, which represents the current state of the operation. At the time the promise is returned to the caller, the operation often isn't finished, but the promise object provides methods to handle the eventual success or failure of the operation.
+
+Back before promises existed, we used callbacks to perform asynchronous functions. Callbacks are a type of function that is passed on to another function, which is expected to be invoked once that function is finished running. Callbacks were used in synchronous programs such as below:
+
+```
+function step1(init) {
+  return init + 1
+}
+
+function step2(init) {
+  return init + 2
+}
+
+function doThing() {
+  let result = 0;
+  result = step1(result)
+  result = step2(result)
+  console.log('result', result)
+}
+
+doThing()
+```
+
+This is perfectly fine JS, as each step adds a number to the variable `result`. A 1 is added, then a 2 and the final console log would be 3.
+
+However, the pitfall of using callbacks is the *pyramid of doom* because it nested callbacks looked like a pyramid and it becomes difficult to reason with the code and handle errors at each level of the pyramid.
+
+```
+function step1(...) { ...}
+
+function step2(...) { ...}
+
+function doThing() {
+  step1(0, (result1) => {
+    step2(result1, (result2 => {
+      console.log('result', result2)
+    }))
+  })
+}
+
+doThing()
+
+```
+
+Nested callbacks are no longer used due because above reasons and the *pyramid of doom* in modern async Javascript.
+
+
+## Promises
+
+A `Promise` has three states:
+
+1. pending: initial state
+2. fulfilled: operation completed successfully
+3. rejected: operation failed
+
+A promise is *settled* once it is one of the two states: fulfilled or rejected. 
+
+Consider:
+
+```
+const myPromise = new Promise ((resolve, reject) => {
+  setTimeout(() => {
+    resolve("foo");
+  }, 300)
+})
+
+myPromise
+  .then(handleFulfilledA, handleRejectedA)
+  .then(handleFulfilledB, handleRejectedB)
+  .then(handleFulfilledC, handleRejectedC);
+```
+
+
+`then()` can take two arguments. The first is a callback function for fulfilled state of the promise and the second argument is a callback for the rejected state.
+
+`then()`s can be chained one after another. The *initial promise* is the promise in which `then` is called, the *new promise* is the promise returned by `then`. If `myPromise` rejects, then `handleRejectedA` will be called and then the promise returned by the first `then` will be fufilled instead of being rejected.
+
+To handle an error, we can throw an error in the rejection handler. Otherwise, we can use an `catch()` handler to handle rejections at the end instead.
+
+
+```
+myPromise
+  .then(handleFulfilledA)
+  .then(handleFulfilledB)
+  .then(handleFulfilledC)
+  .catch(handleRejections)
+
+```
+
+## Promise concurrency
+
+`Promise` has four static methods to handle task concurrency. These are;
+
+1. `Promise.all()`
+2. `Promise.allSettled()`
+3. `Promise.any()`
+4. `Promise.race()`
+
+
+`Promise.all` takes all the promises and fulfils when all the promises fulfill and rejects when any promise rejects.
+`Promise.resolve` "resolves" a given value to a promise. eg. `3` is returned from that promise below.
+
+```
+const promise1 = Promise.resolve(3);
+const promise2 = 'foo'
+const promise3 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, 'bar')
+})
+
+Promise.all([promise1, promise2, promise3]).then((values) => {
+  console.log(values)
+})
+
+// Array [3, 'foo', 'bar']
+```
+
+`Promise.allSettled()` - fulfils when all promises settle, with an array of objects that describe the outcome of each promise.
+
+```
+const promise1 = Promise.resolve(3);
+const promise2 = new Promise((resolve, reject) =>
+  setTimeout(reject, 100, 'foo')
+)
+
+const promises = [promise1, promise2]
+
+Promise.allSettled(promises).then((results) => {
+  results.forEach((result) => console.log(result.status))
+})
+
+// "fulfilled"
+// "rejected"
+```
+
+`Promise.any()` - fufils when any promises fulfils, rejects when all the promise reject with an array of rejection reasons.
+
+```
+const promise1 = Promise.reject(0);
+const promise2 = new Promise((resolve) => setTimeout(resolve, 100, 'quick'))
+const promise3 = new Promise((resolve) => setTimeout(resolve, 500, 'slow'))
+
+const promises = [promise1, promise2, promise3]
+
+Promise.any(promises).then((values) => console.log(values))
+
+// "quick"
+```
+
+`Promise.race()`- takes an iterable of promises and returns a single `Promise` that first settles.
+
+```
+const promise1 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 500, 'one')
+})
+const promise2 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, 'two')
+})
+
+const promises = [promise1, promise2]
+
+Promise.race(promises).then((value) => console.log(value))
+
+// promise2 timeout resolves faster
+// 'two'  
+```
+
+
+## Tldr;
+
+A `Promise` has three states: fufilled, pending, rejected.
+
+A `then()` can be used to handle the fulfilled or rejected state of a promise.
+
+A `catch()` can be used for error handling of any rejected `Promise`.
+
+Promises has four static methods. 
+1. `Promise.all()` - fulfills when all Promises fulfil and no promises rejects.
+2. `Promise.allSettled()` - fulfils when all promises settle
+3. `Promise.any()` - fulfills when any promises fufills; rejects when all promises reject. 
+4. `Promise.race()` - settles when any promises settles (or fulfills when any promises fulfills).
+
+
+
+
+
+
