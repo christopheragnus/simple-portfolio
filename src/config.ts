@@ -32,7 +32,7 @@ export const ME = {
         }
     ],
     contactInfo: {
-        email: "christopherlam@duck.com",
+        email: "https://mailhide.io/e/puMUOUgK",
         linkedin: "https://www.linkedin.com/in/clam8/",
         resumeDoc: "resume.pdf",
     },
