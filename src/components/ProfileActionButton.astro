@@ -8,7 +8,7 @@ import DownloadArrow from "./icons/DownloadArrow.astro";
 import { ME } from "@/config.ts";
 
 const resume = "/" + ME.contactInfo.resumeDoc;
-const { linkedin } = ME.contactInfo;
+const { linkedin, email } = ME.contactInfo;
 ---
 
 <div class="profile-action-buttons w-full flex gap-2">
@@ -34,7 +34,7 @@ const { linkedin } = ME.contactInfo;
         size="icon"
         className="[&_svg]:size-6 h-14 w-14 li-btn flex-none dark:text-n200 bg-white dark:bg-black hover:bg-grey-500 dark:hover:bg-n700 transition-all"
     >
-        <a id="email" aria-label="send me an email">
+        <a href=`${email}` target="_blank" aria-label="send me an email">
             <svg
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,6 @@ const { linkedin } = ME.contactInfo;
 
 <script>
     import { ME } from "@/config.ts";
-    const { email } = ME.contactInfo;
 
     const cvBtn = document.getElementById("cvBtn") as HTMLButtonElement;
     const resume = cvBtn.dataset.cv;
@@ -59,14 +58,4 @@ const { linkedin } = ME.contactInfo;
     cvBtn.addEventListener("click", () => {
         window.open(resume, "_blank");
     });
-
-    // obfuscate email
-    const emailElement = document.getElementById("email");
-    const encodedEmail = btoa(email);
-
-    // Insert the email into the HTML
-    if (emailElement) {
-        const decodedEmail = atob(encodedEmail);
-        emailElement.setAttribute("href", `mailto:${decodedEmail}`);
-    }
 </script>
