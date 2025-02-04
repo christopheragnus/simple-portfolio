@@ -1,0 +1,38 @@
+---
+author: Chris
+publishDate: 2025-02-4
+title: An example of JS Closures with inner & outer functions
+tags:
+  - javascript
+  - closures
+  - leetcode2620
+description:
+  An example of a JS closure returning a subsequent value when an inner function is invoked
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'An example of a JS closure'
+---
+
+In JS, functions have a reference to all variables delcared in the same scope as well as in any other outer scopes. 
+
+Consider the following:
+
+```
+var createCounter = function(n) {
+    let currentCount = n - 1;
+    return function() {
+        currentCount = currentCount + 1;
+        return currentCount       
+    };
+};
+
+/** 
+ * const counter = createCounter(10)
+ * counter() // 10
+ * counter() // 11
+ * counter() // 12
+ */
+
+```
+
+The inner anonymous function has access to the `currentCount` variable. Therefore, when the inner function is returned by `createCounter(10)`, the inner fucntion has access to any declared variable in the containing lexical environment.
