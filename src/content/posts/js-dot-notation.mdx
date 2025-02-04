@@ -1,0 +1,47 @@
+---
+author: Chris
+publishDate: 2025-02-04
+title: Dot notation used within a JS function
+tags:
+  - javascript
+  - closures
+  - higher-order functions
+  - leetcode2704
+description:
+  An example of dot notation used in a JS function.
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'An example of dot notation used in a JS function.'
+---
+
+Jest is one a common testing libraries used in JS. Its syntax uses `expect` and `toBe(val)` or `notToBe(val)` to compare the output of the two values. The following is an example of dot notation, closures (sice its referencing `val` after execution) and Higher-Order Functions inside a `expect` function in which we re-implement similar functionality.
+
+This `expect` function expects a first value. For `toBe(val)` accepts a second value to compare with. If the two values are equal `===`, then it will return true or throw an error `"Not Equal"` and vice versa for `notToBe(val)` with `!==` inequality.
+
+```
+var expect = function(val) {
+    return {
+        toBe: function(secondVal) {
+            if (val === secondVal) {
+                return true
+            } else {
+                throw "Not Equal"
+            }
+            },
+        notToBe: function(secondVal) {
+            if (val !== secondVal) {
+                return true
+            } else {
+                throw "Equal"
+            }
+        }
+    }
+};
+
+/**
+ * expect(5).toBe(5); // true
+ * expect(5).notToBe(5); // throws "Equal"
+ * expect(5).toBe(null); // throws "Not Equal"
+ */
+
+```
