@@ -24,7 +24,7 @@ To solve this, the functions need to be evaluated from right to left.
 Therefore, we use the `functions` array length, subtracting 1 and have `i` to run the loop until zero.
 A `totalCount` variable keeps track of the initial `x` and then the subsequent count before returning the total.
 
-```
+```js
 var compose = function(functions) {
     return function(x) {
         if (functions.length === 0) {

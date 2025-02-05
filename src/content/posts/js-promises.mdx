@@ -20,7 +20,7 @@ What are Javascript Promises?
 
 Back before promises existed, we used callbacks to perform asynchronous functions. Callbacks are a type of function that is passed on to another function, which is expected to be invoked once that function is finished running. Callbacks were used in synchronous programs such as below:
 
-```
+```js
 function step1(init) {
   return init + 1
 }
@@ -43,7 +43,7 @@ This is perfectly fine JS, as each step adds a number to the variable `result`. 
 
 However, the pitfall of using callbacks is the *pyramid of doom* because it nested callbacks looked like a pyramid and it becomes difficult to reason with the code and handle errors at each level of the pyramid.
 
-```
+```js
 function step1(...) { ...}
 
 function step2(...) { ...}
@@ -75,7 +75,7 @@ A promise is *settled* once it is one of the two states: fulfilled or rejected.
 
 Consider:
 
-```
+```js
 const myPromise = new Promise ((resolve, reject) => {
   setTimeout(() => {
     resolve("foo");
@@ -96,7 +96,7 @@ myPromise
 To handle an error, we can throw an error in the rejection handler. Otherwise, we can use an `catch()` handler to handle rejections at the end instead.
 
 
-```
+```js
 myPromise
   .then(handleFulfilledA)
   .then(handleFulfilledB)
@@ -118,7 +118,7 @@ myPromise
 `Promise.all` takes all the promises and fulfils when all the promises fulfill and rejects when any promise rejects.
 `Promise.resolve` "resolves" a given value to a promise. eg. `3` is returned from that promise below.
 
-```
+```js
 const promise1 = Promise.resolve(3);
 const promise2 = 'foo'
 const promise3 = new Promise((resolve, reject) => {
@@ -134,7 +134,7 @@ Promise.all([promise1, promise2, promise3]).then((values) => {
 
 `Promise.allSettled()` - fulfils when all promises settle, with an array of objects that describe the outcome of each promise.
 
-```
+```js
 const promise1 = Promise.resolve(3);
 const promise2 = new Promise((resolve, reject) =>
   setTimeout(reject, 100, 'foo')
@@ -152,7 +152,7 @@ Promise.allSettled(promises).then((results) => {
 
 `Promise.any()` - fufils when any promises fulfils, rejects when all the promise reject with an array of rejection reasons.
 
-```
+```js
 const promise1 = Promise.reject(0);
 const promise2 = new Promise((resolve) => setTimeout(resolve, 100, 'quick'))
 const promise3 = new Promise((resolve) => setTimeout(resolve, 500, 'slow'))
@@ -166,7 +166,7 @@ Promise.any(promises).then((values) => console.log(values))
 
 `Promise.race()`- takes an iterable of promises and returns a single `Promise` that first settles.
 
-```
+```js
 const promise1 = new Promise((resolve, reject) => {
   setTimeout(resolve, 500, 'one')
 })

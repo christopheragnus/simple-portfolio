@@ -1,5 +1,5 @@
 // @ts-check
-import {defineConfig} from 'astro/config';
+import { defineConfig } from 'astro/config';
 import mdx from "@astrojs/mdx";
 
 import react from "@astrojs/react";
@@ -10,6 +10,7 @@ import icon from "astro-icon";
 
 import sitemap from "@astrojs/sitemap";
 
+
 // https://astro.build/config
 export default defineConfig({
     site: 'https://simple-portfolio.vicbox.dev/',
@@ -18,10 +19,11 @@ export default defineConfig({
     }), icon(), sitemap()],
     markdown: {
         shikiConfig: {
-            theme: 'plastic',
+            theme: 'github-dark-dimmed',
             wrap: true,
         },
     },
     experimental: {
         svg: true,
-    }});
+    }
+});

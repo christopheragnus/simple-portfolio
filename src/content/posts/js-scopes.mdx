@@ -34,7 +34,7 @@ The main moving pieces to determine Scope when JS code is executed is:
 
 For the following example, lets look at the following statement, a variable assignemnt:
 
-```
+```js
 var a = 2
 ```
 
@@ -46,7 +46,7 @@ The *Compiler* will perform lexing, parsing and code generation. At the code-gen
 
 A more complex example:
 
-```
+```js
 function foo(a) {
   console.log(a); //2
 }
@@ -74,7 +74,7 @@ In JS, the scope is lexical meaning that a variable defined inside a function is
 
 Consider:
 
-```
+```js
 function foo(a) {
   console.log( a + b);
 }

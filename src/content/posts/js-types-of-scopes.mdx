@@ -23,7 +23,7 @@ Function-based scopes is where a declared function creates a scope bubble for it
 
 Consider:
 
-```
+```js
 function foo(a) {
   var b = 2
 
@@ -53,7 +53,7 @@ The benefit of Function scope is that any variables declared belong to the fucnt
 
 For example; it is inadvisable to declare `bar(...)` and variable `b` in the global scope. It is unnecessary and dangerous and its better to only give access to `b` and `bar(...)` only within `foo(...)` as this is only where it is used in the program.
 
-```
+```js
 function foo(a) {
   b = a + bar(a * 2);
   
@@ -72,7 +72,7 @@ foo(2); // 15
 
 In this snippet, the `b` variable and `bar(...)` is only accessible inside of `foo(...)` and makes them private. Hiding variables inside functions prevents "collisions" or accidentally overwriting a variable in another part of the program.
 
-```
+```js
 function foo(a) {
   function bar(a) {
     return a - 1
@@ -93,7 +93,7 @@ foo(2); // 15
 
 Block scopes are probably the most widespread use of scope in JS. Block scoping refers to the idea variables can be confined to a block (such as an `if` statement, `for` loop or within `{}`). An example of block scoping is found in this example:
 
-```
+```js
 for (var i = 0; i < 10; i++) {
   console.log(i);
 }
@@ -108,7 +108,7 @@ So, how do we fix this?
 
 In ES6 Javascript, a new variable keyword `let` was introduced as another way to declare variables. The `let` keyword attaches the variable declaration to its enclosing block, commonly between the brackets `{...}`.  
 
-```
+```js
 var foo = true
 
 if (foo) {
@@ -123,7 +123,7 @@ console.log(bar); // ReferenceError
 
 In the snippet, using `let` attaches a variable to an existing block implicitly. An explicit demostration of block-scoping with `let` is in the following snippet:
 
-```
+```js
 var foo = true
 
 if (foo) {
@@ -140,7 +140,7 @@ console.log(bar); // ReferenceError
 
 ES6 Javascript also introduced `const`, which creates a block-scoped variable. The only major difference is that it prevents a new value from being reassigned.
 
-```
+```js
 var foo = true;
 
 if (foo) {
