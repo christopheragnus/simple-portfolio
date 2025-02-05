@@ -1,0 +1,56 @@
+---
+author: Chris
+publishDate: 2025-02-04
+title: Function Composition Example
+tags:
+  - javascript
+  - functions
+  - leetcode2629
+description:
+  An example of function composition in JS
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'An example of function composition in JS'
+---
+
+Given an array of functions, return a function that is the function composition of the array of functions.
+
+The function composition of `[f(x), g(x), h(x)]` is `fn(x) = f(g(h(x)))`.
+
+The function of an empty list of functions is the identity function: `f(x) = x`.
+
+To solve this, the functions need to be evaluated from right to left. 
+
+Therefore, we use the `functions` array length, subtracting 1 and have `i` to run the loop until zero.
+A `totalCount` variable keeps track of the initial `x` and then the subsequent count before returning the total.
+
+```
+var compose = function(functions) {
+    return function(x) {
+        if (functions.length === 0) {
+            return x
+        }
+
+        let totalCount = x
+
+        for (let i=functions.length - 1; i >= 0; i--) {
+            let fn = functions[i]
+            totalCount = fn(totalCount);
+        }
+
+        return totalCount
+    }
+};
+
+/**
+ * const fn = compose([x => x + 1, x => 2 * x])
+ * fn(4) // 9
+ */
+
+
+/**
+ * const fn = compose([x => 10 * x, x => 10 * x, x => 10 * x])
+ * fn(1) // 1000
+ */
+
+```
