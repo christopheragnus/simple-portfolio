@@ -1,0 +1,50 @@
+---
+author: Chris
+publishDate: 2025-02-06
+title: Returning a Chunk Array in JS
+tags:
+  - javascript
+  - arrays
+  - leetcode2677
+description:
+  How to return a chunked array from an array of a certain size.
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'How to return a chunked array from an array of a certain size.'
+---
+
+A chunked array is an array of a `size`, given an array `arr`.
+
+A chunked array contains the original elements from `arr` with subarrays of length `size`. The last chunk can be less than the `size` if the `arr` is not evenly divisble.
+
+To solve this, we create a `finalarr` variable to store the new array.
+
+We create a `for` loop, starting `i=0` but increment it by `i+=size`. The block uses `slice()` to create a shallow copy of the original `arr` and then pushes each subarray of length `size` into `finalarr`. 
+
+Then, we can still push the final subarray that is not the exact `size` because `slice()`'s second parameter `end` has the following condition on [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice):
+
+> If `end >= array.length` or `end` is omitted, array.length is used, causing all elements until the end to be extracted. 
+
+Example 1 demonstrates the `arr` has been split into subarrays with 3 elements. However, only two elements are left for the 2nd subarray.
+
+```js
+var chunk = function(arr, size) {
+    let finalarr = []
+    
+    for (let i=0; i < arr.length; i+=size) {
+        let slicedarr = arr.slice(i, i+size);
+        finalarr.push(slicedarr);
+    }
+
+    return finalarr;
+
+};
+
+```
+
+Example 1:
+
+```
+Input: arr = [1,9,6,3,2], size = 3
+Output: [[1,9,6],[3,2]]
+```
