@@ -62,3 +62,13 @@ var sortBy = function(arr, fn) {
     return mapped.map(item => item.element);
 };
 ```
+
+`mapped.sort(...)` can also be further simplified on complexity:
+
+```js
+mapped.sort((a, b) => {
+        if (a.value !== b.value) {
+            return a.value - b.value;
+        } 
+    })
+```
