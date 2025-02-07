@@ -1,0 +1,65 @@
+---
+author: Chris
+publishDate: 2025-02-07
+title: Returning a subarray group in JS
+tags:
+  - javascript
+  - arrays
+  - leetcode2631
+description:
+  Returning an grouped array with a custom groupBy() method
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'Returning an grouped array with a custom groupBy() method'
+---
+
+Return an grouped version of an array by calling `array.groupBy(fn)` on any array. A grouped array with an object where each key is the output of `fn(arr[i])` and each key is that array of items in the original array.
+
+Consider:
+ 
+```
+Input: 
+array = [
+  {"id":"1"},
+  {"id":"1"},
+  {"id":"2"}
+], 
+fn = function (item) { 
+  return item.id; 
+}
+Output: 
+{ 
+  "1": [{"id": "1"}, {"id": "1"}],   
+  "2": [{"id": "2"}] 
+}
+```
+
+To solve this, we firstly create a `tempObj` to return later.
+
+We add the `groupBy` method to the `Array` prototype. Now, all arrays can use this method when it is invoked.
+
+We use `this` inside the block because `this` will refer to the context in which a function is called - this would be the array 
+that `groupBy` is invoked on. 
+
+We `map` over the array, and if the key doesn't exist, we create an new array and with the individual `el` in.  Otherwise, we push `el` to an existing key returned by `fn(el)`.
+
+```js
+Array.prototype.groupBy = function(fn) {
+    let tempObj = {}
+    
+    this.map((el) => {
+        if (tempObj[fn(el)]) {
+            tempObj[fn(el)].push(el)
+        } else {
+            tempObj[fn(el)] = [el]
+        }
+    } )
+
+    return tempObj
+};
+
+/**
+ * [1,2,3].groupBy(String) // {"1":[1],"2":[2],"3":[3]}
+ */
+```
+
