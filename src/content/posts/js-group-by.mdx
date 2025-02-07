@@ -42,6 +42,7 @@ We use `this` inside the block because `this` will refer to the context in which
 that `groupBy` is invoked on. 
 
 We `map` over the array, and if the key doesn't exist, we create an new array and with the individual `el` in.  Otherwise, we push `el` to an existing key returned by `fn(el)`.
+Then we return `tempObj` once the entire array is iterated through.
 
 ```js
 Array.prototype.groupBy = function(fn) {
