@@ -1,0 +1,84 @@
+---
+author: Chris
+publishDate: 2025-02-11
+title: JS Maps; the ugly step sibling of Objects
+tags:
+  - javascript
+  - map
+  - object
+description:
+  A guide on comparing Map vs Objects in Javascript
+cover:
+  src: './images/js-scopes/js-cover.png'
+  alt: 'A guide on comparing Map vs Objects in Javascript'
+---
+
+`Map` objects are a collection of key-value pairs. They are iterable by insertion order and values are inserted by the `set()` method. Each key must be unique in the collection too.
+
+## Objects vs Maps
+
+`Object`s have been used as `Map`s historically since both let you set keys to values, retrive values, delete keys and check if a key exists.
+
+Here are a few differences between the two:
+
+Key Types
+- A `Map` can be any value. eg. objects, functions, etc.
+- `Object`s can be Strings and Symbols only
+
+Order of keys
+- `Map`s maintain insertion order
+- `Object`s do not guarantee order
+
+Key Uniqueness
+- `Map` keys are unique; he uses `SameValueZero` algorithm
+- `Object` string keys are unique
+
+Iteration
+- `Map.prototype.forEach` and `for...of` iterates in insertion order.
+- `Object` iteration order can be unpredictable
+
+Built-in Methods
+- `Map` has `set`, `get`, `has`, `delete` and `clear`
+- `Object` only has `Object.keys`, `Object.values`, `Object.entries`
+
+
+Size Property
+- `Map` has a `size` property that returns the number of key-value pairs
+- `Object` has no size property. However, you can do `Object.keys(myObj).length`.
+
+Setting a `Map`:
+
+```js
+const map = new Map();
+map.set('key1', 'value1');
+map.set('key2', 'value2');
+map.set(3, 'value2')
+
+console.log(map.get('key1')); // Output: value1
+console.log(map.size); // Output: 3
+
+map.forEach((value, key) => {
+  console.log(`${key}: ${value}`);
+})
+
+```
+
+Setting an `Object`:
+
+```js
+const obj = {
+  key1: 'value1',
+  key2: 'value2'
+}
+
+obj.key3 = 'value3'; // keys must be strings or symbols
+
+console.log(obj.key1);
+
+// iteration
+Object.keys(obj).forEach(key => {
+  console.log(`${key} : ${obj[key]}`)
+})
+```
+
+
